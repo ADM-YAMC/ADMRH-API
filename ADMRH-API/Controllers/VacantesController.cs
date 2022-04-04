@@ -53,7 +53,18 @@ namespace ADMRH_API.Controllers
             });
         }
 
-        
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<Response>> GetVacanteForUser(int id)
+        {
+            var vacante = await _context.Vacantes.Where(x => x.IdUsuarioCreacion == id).Select(x => x).ToListAsync();
+
+            return Ok(new Response()
+            {
+                ok = true,
+                vacante = vacante
+            });
+        }
+
 
         // PUT: api/Vacantes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

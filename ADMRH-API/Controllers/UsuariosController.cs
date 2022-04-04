@@ -195,10 +195,10 @@ namespace ADMRH_API.Controllers
 ";
             string sub = @$"{boddys}<div class='container'>
         <br />
-        <div style='background: #1c57b9;' class='content-body'>
+        <div style='background: #1c57b9; border-radius: 5px; padding:10px; color:aliceblue;' class='content-body'>
             <div class='content-sub-body'>
                 <div class='header'>
-                    <h1 style='padding-top:14px; padding-left:10px; margin-top: 0px; color:aliceblue'>JustQuallity</h1>
+                    <h1 style='padding-top:14px; margin-top: 0px; color:aliceblue'>JustQuallity</h1>
                 </div>
                 <div class='info'>
                     <label style='padding-top:50px;'>Hola Sr/a. {usuario.Nombre} {usuario.Apellido},</label>
