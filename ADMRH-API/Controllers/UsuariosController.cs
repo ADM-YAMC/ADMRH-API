@@ -44,14 +44,52 @@ namespace ADMRH_API.Controllers
             return usuario;
         }
 
+        [HttpGet("cantidadVC/{id}")]
+        public async Task<ActionResult<ResponseMessageCountCantidaVC>> cantidadVC(int id)
+        {
+            var candidatos = await _context.Candidatos.Where(x => x.IdUsuarioCreacion == id).Select(x => x).ToListAsync();
+            var vacantes = await _context.Vacantes.Where(x => x.IdUsuarioCreacion == id).Select(x => x).ToListAsync();
+
+
+            return new ResponseMessageCountCantidaVC()
+            {
+                ok = true,
+                cantidadVacantes = vacantes.Count,
+                CantidadCandidatos = candidatos.Count,
+
+            };
+        }
+
+
+        [HttpGet("cantidadTotal_UCV")]
+        public async Task<ActionResult<ResponsecantidadTotal_UCV>> cantidadTotal_UCV()
+        {
+            var candidatos = await _context.Candidatos.ToListAsync();
+            var vacantes = await _context.Vacantes.ToListAsync();
+            var usuarios = await _context.Usuarios.ToListAsync();
+
+
+            return new ResponsecantidadTotal_UCV()
+            {
+                ok = true,
+                cantidadTVacantes = vacantes.Count,
+                CantidadTCandidatos = candidatos.Count,
+                CantidadTUsuarios = usuarios.Count,
+            };
+        }
+
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
+        public async Task<ResponseUser> PutUsuario(int id, Usuario usuario)
         {
             if (id != usuario.IdUsuario)
             {
-                return BadRequest();
+                return new ResponseUser()
+                {
+                    ok = false,
+                    mensaje = "El usuario no valido..."
+                };
             }
 
             _context.Entry(usuario).State = EntityState.Modified;
@@ -59,20 +97,27 @@ namespace ADMRH_API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return new ResponseUser()
+                {
+                    ok = true,
+                    mensaje = "El usuario a sido actualizado con exito..."
+                };
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!UsuarioExists(id))
                 {
-                    return NotFound();
+                    return new ResponseUser()
+                    {
+                        ok = false,
+                        mensaje = "El usuario no existe..."
+                    };
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Usuarios
@@ -119,18 +164,26 @@ namespace ADMRH_API.Controllers
 
         // DELETE: api/Usuarios/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUsuario(int id)
+        public async Task<ResponseUser> DeleteUsuario(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
             {
-                return NotFound();
+                return new ResponseUser()
+                {
+                    ok = false,
+                    mensaje = "El usuario que intenta eliminar no es valido..."
+                };
             }
 
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return new ResponseUser()
+            {
+                ok = true,
+                mensaje = "El usuario fue eliminado con exito..."
+            };
         }
 
         private bool UsuarioExists(int id)
@@ -243,5 +296,20 @@ namespace ADMRH_API.Controllers
     {
         public bool ok { get; set; }
         public string mensaje { get; set; }
+    }
+
+    public class ResponseMessageCountCantidaVC
+    {
+        public bool ok { get; set; }
+        public int cantidadVacantes { get; set; }
+        public int CantidadCandidatos { get; set; }
+    }
+
+    public class ResponsecantidadTotal_UCV
+    { 
+        public bool ok { get; set; }
+        public int cantidadTVacantes { get; set; }
+        public int CantidadTCandidatos { get; set; }
+        public int CantidadTUsuarios { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace ADMRH_API.Controllers
         // PUT: api/Archivos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArchivo(int id, Archivo archivo)
+        public async Task<ActionResult<Archivo>> PutArchivo(int id, Archivo archivo)
         {
             if (id != archivo.IdArchivos)
             {
@@ -62,6 +62,9 @@ namespace ADMRH_API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                var archivoA = await _context.Archivos.FindAsync(id);
+                return archivoA;
+
             }
             catch (DbUpdateConcurrencyException)
             {

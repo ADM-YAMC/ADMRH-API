@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\yunior.moreta.G4S\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {}
+    "C:\\Users\\yunior.moreta.G4S\\source\\repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\yunior.moreta.G4S\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {
+    "C:\\Users\\yunior.moreta.G4S\\source\\repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\yunior.moreta.G4S\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
+        "projectUniqueName": "C:\\Users\\yunior.moreta.G4S\\source\\repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
         "projectName": "ADMRH-API",
-        "projectPath": "C:\\Users\\yunior.moreta.G4S\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
+        "projectPath": "C:\\Users\\yunior.moreta.G4S\\source\\repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
         "packagesPath": "C:\\Users\\yunior.moreta.G4S\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\yunior.moreta.G4S\\Source\\Repos\\ADMRH-API\\ADMRH-API\\obj\\",
+        "outputPath": "C:\\Users\\yunior.moreta.G4S\\source\\repos\\ADMRH-API\\ADMRH-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
