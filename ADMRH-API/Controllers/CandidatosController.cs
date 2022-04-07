@@ -75,12 +75,27 @@ namespace ADMRH_API.Controllers
         // POST: api/Candidatos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Candidato>> PostCandidato(Candidato candidato)
+        public async Task<ActionResult<ResponseC>> PostCandidato(Candidato candidato)
         {
-            _context.Candidatos.Add(candidato);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Candidatos.Add(candidato);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCandidato", new { id = candidato.IdCandidato }, candidato);
+                return new ResponseC()
+                {
+                    ok = true,
+                    message = "Los datos se guardaron correctamente..."
+                };
+            }
+            catch (Exception)
+            {
+                return new ResponseC()
+                {
+                    ok = true,
+                    message = "Ocurrio un error al insertar los datos..."
+                };
+            }
         }
 
         // DELETE: api/Candidatos/5
@@ -103,5 +118,12 @@ namespace ADMRH_API.Controllers
         {
             return _context.Candidatos.Any(e => e.IdCandidato == id);
         }
+
+        
+    }
+   public class ResponseC
+    {
+        public bool ok { get; set; }
+        public string message { get; set; }
     }
 }
