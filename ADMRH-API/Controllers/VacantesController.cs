@@ -113,14 +113,26 @@ namespace ADMRH_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Response>> PostVacante(Vacante vacante)
         {
-            _context.Vacantes.Add(vacante);
-            await _context.SaveChangesAsync();
-
-            return Ok(new Response()
+            try
             {
-                ok = true,
-                mensaje = "Vacante registrda con exito..."
-            });
+                _context.Vacantes.Add(vacante);
+                await _context.SaveChangesAsync();
+
+                return Ok(new Response()
+                {
+                    ok = true,
+                    mensaje = "Vacante registrda con exito..."
+                });
+            }
+            catch (Exception e)
+            {
+
+                return Ok(new Response()
+                {
+                    ok = false,
+                    mensaje = "Ocurrio un error... "+e
+                });
+            }
 
         }
 

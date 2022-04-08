@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace ADMRH_API.Models
+namespace ADMRH_API.gh
 {
     public partial class ADMRHJQContext : DbContext
     {
