@@ -1,27 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alex-carreras\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {}
+    "C:\\Users\\Jacsel Guridi Diaz\\Desktop\\Projects\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alex-carreras\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {
+    "C:\\Users\\Jacsel Guridi Diaz\\Desktop\\Projects\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alex-carreras\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
+        "projectUniqueName": "C:\\Users\\Jacsel Guridi Diaz\\Desktop\\Projects\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
         "projectName": "ADMRH-API",
-        "projectPath": "C:\\Users\\Alex-carreras\\Source\\Repos\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
-        "packagesPath": "C:\\Users\\Alex-carreras\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alex-carreras\\Source\\Repos\\ADMRH-API\\ADMRH-API\\obj\\",
+        "projectPath": "C:\\Users\\Jacsel Guridi Diaz\\Desktop\\Projects\\ADMRH-API\\ADMRH-API\\ADMRH-API.csproj",
+        "packagesPath": "C:\\Users\\Jacsel Guridi Diaz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Jacsel Guridi Diaz\\Desktop\\Projects\\ADMRH-API\\ADMRH-API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Alex-carreras\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Jacsel Guridi Diaz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -87,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
