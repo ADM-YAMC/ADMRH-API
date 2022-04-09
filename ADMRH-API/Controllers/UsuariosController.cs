@@ -30,6 +30,12 @@ namespace ADMRH_API.Controllers
             return await _context.Usuarios.ToListAsync();
         }
 
+        [HttpGet("creacion/{id}")]
+        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuariosIdCreacion(int id)
+        {
+            return await _context.Usuarios.Where(x => x.IdCreacionUser == id).Select(x => x).ToListAsync();
+        }
+
         // GET: api/Usuarios/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuario(int id)

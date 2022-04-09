@@ -41,6 +41,19 @@ namespace ADMRH_API.Controllers
             return candidato;
         }
 
+        [HttpGet("Cedula/{cedula}")]
+        public async Task<ActionResult<List<Candidato>>> GetCandidatoCedula(string cedula)
+        {
+            var candidato = await _context.Candidatos.Where(x => x.Cedula == cedula).Select(x => x).ToListAsync();
+
+            if (candidato == null)
+            {
+                return NotFound();
+            }
+
+            return candidato;
+        }
+
         // PUT: api/Candidatos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

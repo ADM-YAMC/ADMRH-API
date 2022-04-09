@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = ADMRH_API
-build_property.ProjectDir = C:\Users\Alex-carreras\Desktop\ADMRH-API\ADMRH-API\
+build_property.ProjectDir = C:\Users\Alex-carreras\source\repos\ADMRH-API\ADMRH-API\

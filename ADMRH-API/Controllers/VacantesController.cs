@@ -31,6 +31,17 @@ namespace ADMRH_API.Controllers
             });
         }
 
+        //[HttpGet("candidato/{id}")]
+        //public async Task<ActionResult<IEnumerable<Response>>> GetVacantesCandidato(int id)
+        //{
+        //    var vacante = _context.Vacantes.Where(x =>x.id).
+        //    return Ok(new Response()
+        //    {
+        //        ok = true,
+        //        vacante = 
+        //    });
+        //}
+
         // GET: api/Vacantes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Response>> GetVacante(int id)
@@ -39,10 +50,11 @@ namespace ADMRH_API.Controllers
 
             if (vacante == null)
             {
-               return Ok(new Response()
+                return Ok(new Response()
                 {
                     ok = true,
-                    mensaje = "El usuario no existe..."
+                    mensaje = "La vacante no existe...",
+                    vacante = new List<Vacante>()
                 });
             }
 
@@ -64,6 +76,7 @@ namespace ADMRH_API.Controllers
                 vacante = vacante
             });
         }
+
 
 
         // PUT: api/Vacantes/5
