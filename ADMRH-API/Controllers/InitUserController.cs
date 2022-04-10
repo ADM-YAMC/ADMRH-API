@@ -1,9 +1,7 @@
 ﻿using ADMRH_API.Guard;
 using ADMRH_API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -26,59 +24,35 @@ namespace ADMRH_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuario>> GetClienteUsuario(userDataLogin dataLogin)
         {
-                try
-                {
-                    var token = tokens.generateToken();
-                    var clienteUsuario = await _context.Usuarios.FirstAsync(user =>
-                         user.Correo == dataLogin.user && user.Contraseña == dataLogin.pass);
-                    if (await UpdateToken(clienteUsuario, token))
-                    {
-                        return Ok(JsonData.ConvertJsonDataLogin(clienteUsuario, token));
-                    }
-                    else
-                    {
-                        return Ok(new Ans()
-                        {
-                            ok = false,
-                            mensaje = "Ocurrio un error faltal al actualizar su token de inicio..."
-                        });
-                    }
-                }
-                catch (Exception)
-                {
-                    return Ok(new Ans()
-                    {
-                        ok = false,
-                        mensaje = "El usuario o la contraseña son incorrectos..."
-                    });
-                }
-            }
-       
-        private async Task<bool> UpdateToken(Usuario usuario, string token)
-        {
-            usuario.Token = token;
-            _context.Entry(usuario).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-                return true;
+                var clienteUsuario = await _context.Usuarios.FirstOrDefaultAsync(user =>
+                        user.Correo == dataLogin.user && user.Contraseña == dataLogin.pass);
+                    
+                if(clienteUsuario == null || clienteUsuario?.IdUsuario == default)
+                    return Ok(new Ans() { Mensaje = "Usuario o contraseña incorrecta" });
+
+                return Ok(new Ans() 
+                { 
+                    Ok = true,
+                    Claims = new UserClaims()
+                    {
+                        IdUsuario = clienteUsuario.IdUsuario,
+                        Nombre = clienteUsuario.Nombre,
+                        Apellido = clienteUsuario.Apellido,
+                        Correo = clienteUsuario.Correo,
+                        LoginDate = clienteUsuario.LoginDate,
+                        Rol = clienteUsuario.Rol
+                    }
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!UsuarioExists(usuario.IdUsuario))
+                return Ok(new Ans()
                 {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
+                    Mensaje = "Ocurrió un problema con las credenciales proporcionadas"
+                });
             }
-        }
-        private bool UsuarioExists(int id)
-        {
-            return _context.Usuarios.Any(e => e.IdUsuario == id);
         }
     }
     public class userDataLogin
@@ -88,7 +62,8 @@ namespace ADMRH_API.Controllers
     }
     public class Ans
     {
-        public bool ok { get; set; }
-        public string mensaje { get; set; }
+        public bool Ok { get; set; }
+        public UserClaims Claims { get; set; }
+        public string Mensaje { get; set; }
     }
 }
