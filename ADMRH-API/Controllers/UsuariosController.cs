@@ -126,6 +126,47 @@ namespace ADMRH_API.Controllers
             }
         }
 
+        [HttpPut("cambioContraseña/{id}")]
+        public async Task<ResponseUser> PutPasswordUsuario(int id, CambioContraseña cambio)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario.Contraseña != cambio.viejaContraseña)
+            {
+                return new ResponseUser()
+                {
+                    ok = false,
+                    mensaje = "La antigua contraseña no es valida..."
+                };
+            }
+            usuario.Contraseña = cambio.nuevaContraseña;
+            usuario.PCambio = cambio.Estado;
+            _context.Entry(usuario).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new ResponseUser()
+                {
+                    ok = true,
+                    mensaje = "La contraseña a sido actualizado con exito..."
+                };
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsuarioExists(id))
+                {
+                    return new ResponseUser()
+                    {
+                        ok = false,
+                        mensaje = "El usuario no existe..."
+                    };
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -192,6 +233,13 @@ namespace ADMRH_API.Controllers
             };
         }
 
+
+
+
+
+
+
+
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.IdUsuario == id);
@@ -254,10 +302,10 @@ namespace ADMRH_API.Controllers
 ";
             string sub = @$"{boddys}<div class='container'>
         <br />
-        <div style='background: #1c57b9; border-radius: 5px; padding:10px; color:aliceblue;' class='content-body'>
+        <div style='background: #023877; border-radius: 5px; padding:10px; color:aliceblue;' class='content-body'>
             <div class='content-sub-body'>
                 <div class='header'>
-                    <h1 style='padding-top:14px; margin-top: 0px; color:aliceblue'>JustQuallity</h1>
+                    <h1 style='padding-top:14px; margin-top: 0px; color:aliceblue'>Just Quality HR</h1>
                 </div>
                 <div class='info'>
                     <label style='padding-top:50px;'>Hola Sr/a. {usuario.Nombre} {usuario.Apellido},</label>
@@ -279,7 +327,7 @@ namespace ADMRH_API.Controllers
 </html>";
 
             MailMessage correo = new MailMessage();
-            correo.From = new MailAddress("for.foot.fusion@gmail.com", "for foot", System.Text.Encoding.UTF8);
+            correo.From = new MailAddress("jq.hr.system@gmail.com", "JQHR System", System.Text.Encoding.UTF8);
             correo.To.Add(usuario.Correo);
             correo.Subject = "Confirmacion de registro";
             correo.Body = $"{sub}";
@@ -290,7 +338,7 @@ namespace ADMRH_API.Controllers
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
             smtp.EnableSsl = true;//True si el servidor de correo permite ssl
-            smtp.Credentials = new System.Net.NetworkCredential("for.foot.fusion@gmail.com", "Forfoot9550");//Cuenta de correo
+            smtp.Credentials = new System.Net.NetworkCredential("jq.hr.system@gmail.com", "Jqrh4321");//Cuenta de correo
             ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
             smtp.Send(correo);
             return true;
@@ -317,5 +365,14 @@ namespace ADMRH_API.Controllers
         public int cantidadTVacantes { get; set; }
         public int CantidadTCandidatos { get; set; }
         public int CantidadTUsuarios { get; set; }
+    }
+
+    public class CambioContraseña
+    {
+        public int Estado { get; set; }
+        public int idUsuario { get; set; }
+        public string viejaContraseña { get; set; }
+        public string nuevaContraseña { get; set; }
+        public string rnuevaContraseña { get; set; }
     }
 }

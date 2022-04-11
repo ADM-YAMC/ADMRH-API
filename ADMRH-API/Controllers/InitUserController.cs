@@ -38,6 +38,7 @@ namespace ADMRH_API.Controllers
                     Claims = new UserClaims()
                     {
                         IdUsuario = clienteUsuario.IdUsuario,
+                        PCambio = clienteUsuario.PCambio,
                         Nombre = clienteUsuario.Nombre,
                         Apellido = clienteUsuario.Apellido,
                         Correo = clienteUsuario.Correo,

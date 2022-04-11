@@ -21,5 +21,6 @@ namespace ADMRH_API.Models
         public string? Token { get; set; }
         public DateTime LoginDate { get; set; }
         public DateTime CreateDate { get; set; }
+        public int? PCambio { get; set; }
     }
 }
