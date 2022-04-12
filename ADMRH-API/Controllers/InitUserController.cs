@@ -33,8 +33,13 @@ namespace ADMRH_API.Controllers
                 if(clienteUsuario == null || clienteUsuario?.IdUsuario == default)
                     return Ok(new Ans() { Mensaje = "Usuario o contraseña incorrecta" });
 
-                return Ok(new Ans() 
-                { 
+                if (clienteUsuario.Estado ==1)
+                {
+                    return Ok(new Ans() { Mensaje = "Su usuario a sido bloqueado. Lamentamos los inconvenientes..." });
+                }
+
+                return Ok(new Ans()
+                {
                     Ok = true,
                     Claims = new UserClaims()
                     {

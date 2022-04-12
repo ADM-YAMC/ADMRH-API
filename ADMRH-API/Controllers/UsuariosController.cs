@@ -172,6 +172,52 @@ namespace ADMRH_API.Controllers
             }
         }
 
+        [HttpPut("LookUnLookUser/{idUser}/{estado}")]
+        public async Task<ResponseUser> PutLookUsuario(int idUser, int estado)
+        {
+            var usuario = await _context.Usuarios.FindAsync(idUser);
+            usuario.Estado = estado;
+            _context.Entry(usuario).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                if (estado ==1)
+                {
+                    return new ResponseUser()
+                    {
+                        ok = true,
+                        mensaje = "El usuario a sido bloqueado con exito..."
+                    };
+                }
+                else
+                {
+                    return new ResponseUser()
+                    {
+                        ok = true,
+                        mensaje = "El usuario a sido desbloqueado con exito..."
+                    };
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsuarioExists(idUser))
+                {
+                    return new ResponseUser()
+                    {
+                        ok = false,
+                        mensaje = "El usuario no existe..."
+                    };
+                }
+                else
+                {
+                    return new ResponseUser()
+                    {
+                        ok = false,
+                        mensaje = "Ocurrio un error..."
+                    };
+                }
+            }
+        }
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -184,6 +230,7 @@ namespace ADMRH_API.Controllers
                 var result = usuarios.Where(x => x.Correo == usuario.Correo || x.Cedula == usuario.Cedula).Select(x => x).ToList();
                 if (result.Count.Equals(0))
                 {
+                    usuario.Estado = 0;
                     usuario.Contraseña = Base64Encode(usuario.Contraseña);
                     _context.Usuarios.Add(usuario);
                     await _context.SaveChangesAsync();
