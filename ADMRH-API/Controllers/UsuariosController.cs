@@ -130,7 +130,8 @@ namespace ADMRH_API.Controllers
         public async Task<ResponseUser> PutPasswordUsuario(int id, CambioContraseña cambio)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario.Contraseña != cambio.viejaContraseña)
+            var descodePass = Base64Decode(usuario.Contraseña);
+            if (descodePass != cambio.viejaContraseña)
             {
                 return new ResponseUser()
                 {
@@ -138,7 +139,7 @@ namespace ADMRH_API.Controllers
                     mensaje = "La antigua contraseña no es valida..."
                 };
             }
-            usuario.Contraseña = cambio.nuevaContraseña;
+            usuario.Contraseña = Base64Encode(cambio.nuevaContraseña);
             usuario.PCambio = cambio.Estado;
             _context.Entry(usuario).State = EntityState.Modified;
             try
@@ -162,7 +163,11 @@ namespace ADMRH_API.Controllers
                 }
                 else
                 {
-                    throw;
+                    return new ResponseUser()
+                    {
+                        ok = false,
+                        mensaje = "Ocurrio un error..."
+                    };
                 }
             }
         }
@@ -179,6 +184,7 @@ namespace ADMRH_API.Controllers
                 var result = usuarios.Where(x => x.Correo == usuario.Correo || x.Cedula == usuario.Cedula).Select(x => x).ToList();
                 if (result.Count.Equals(0))
                 {
+                    usuario.Contraseña = Base64Encode(usuario.Contraseña);
                     _context.Usuarios.Add(usuario);
                     await _context.SaveChangesAsync();
                     enviarCorreo(usuario);
@@ -233,12 +239,16 @@ namespace ADMRH_API.Controllers
             };
         }
 
-
-
-
-
-
-
+        private static string Base64Encode(string word)
+        {
+            byte[] byt = System.Text.Encoding.UTF8.GetBytes(word);
+            return  Convert.ToBase64String(byt);
+        }
+        private static string Base64Decode(string word)
+        {
+            byte[] b = Convert.FromBase64String(word);
+            return System.Text.Encoding.UTF8.GetString(b);
+        }
 
         private bool UsuarioExists(int id)
         {
@@ -247,60 +257,8 @@ namespace ADMRH_API.Controllers
 
         private bool enviarCorreo(Usuario usuario)
         {
-            string boddys = @" <html lang='en'><body> <style>
-        .container{
-            width: 100%; 
-            height: 700px; 
-            background: #1c57b9; 
-            padding: 0px; 
-            margin: 0px; 
-            color: aliceblue;
-        }
-       .container .content-body{
-        width: 40%; 
-        height: 600px; 
-        margin: auto;
-        background: #1c57b9; 
-        border: solid 2px #45536b; 
-        border-radius:5px; margin-top: 2.1%; 
-       }
-       .content-body .content-sub-body{
-        height: 600px; 
-        width: 100%; 
-       }
-       .content-sub-body .header{
-        width: 100%; 
-        height: 70px; 
-        margin: auto; 
-        background: #023877; 
-        border-top-left-radius:5px; 
-        border-top-right-radius:5px;
-       }
-       .content-sub-body .fhotter{
-        height: 70px; 
-        width: 100%; 
-        background: #023877; 
-        margin: auto;
-        border-bottom-left-radius:5px; 
-        border-bottom-right-radius:5px;
-       }
-      .container .content-sub-body .info{
-        width:90%; 
-        height:440px; 
-        padding:10px;
-        margin: auto;
-        text-align: justify;
-        word-wrap: break-word;
-       }
-       @media only screen and (max-width: 768px) {
-        .container.content - body{
-            width: 90%;
-            word-wrap: break-word;
-        }
-       }
-    </style>
-";
-            string sub = @$"{boddys}<div class='container'>
+           
+            string sub = @$"<div class='container'>
         <br />
         <div style='background: #023877; border-radius: 5px; padding:10px; color:aliceblue;' class='content-body'>
             <div class='content-sub-body'>
@@ -323,8 +281,7 @@ namespace ADMRH_API.Controllers
                 </div>
             </div>
         </div>
-    </div> </body>
-</html>";
+    </div>";
 
             MailMessage correo = new MailMessage();
             correo.From = new MailAddress("jq.hr.system@gmail.com", "JQHR System", System.Text.Encoding.UTF8);

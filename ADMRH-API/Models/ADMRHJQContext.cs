@@ -96,7 +96,7 @@ namespace ADMRH_API.Models
 
                 entity.Property(e => e.Contraseña)
                     .IsRequired()
-                    .HasMaxLength(65);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Correo)
                     .IsRequired()

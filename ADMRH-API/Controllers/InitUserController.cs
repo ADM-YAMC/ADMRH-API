@@ -26,8 +26,9 @@ namespace ADMRH_API.Controllers
         {
             try
             {
+                var descodePass = Base64Encode(dataLogin.pass);
                 var clienteUsuario = await _context.Usuarios.FirstOrDefaultAsync(user =>
-                        user.Correo == dataLogin.user && user.Contraseña == dataLogin.pass);
+                        user.Correo == dataLogin.user && user.Contraseña == descodePass);
                     
                 if(clienteUsuario == null || clienteUsuario?.IdUsuario == default)
                     return Ok(new Ans() { Mensaje = "Usuario o contraseña incorrecta" });
@@ -54,6 +55,11 @@ namespace ADMRH_API.Controllers
                     Mensaje = "Ocurrió un problema con las credenciales proporcionadas"
                 });
             }
+        }
+        private static string Base64Encode(string word)
+        {
+            byte[] byt = System.Text.Encoding.UTF8.GetBytes(word);
+            return Convert.ToBase64String(byt);
         }
     }
     public class userDataLogin
